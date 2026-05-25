@@ -24,13 +24,13 @@ public class UsuarioService {
 
     // Paginación y búsqueda
     public Page<Usuario> listarUsuarios(int pagina, String busqueda) {
-        Pageable pageable = PageRequest.of(pagina - 1, 5, Sort.by("id").descending());
-        
-        if (busqueda != null && !busqueda.isEmpty()) {
-            return usuarioRepository.buscarGeneral(busqueda, pageable);
-        }
-        return usuarioRepository.findAll(pageable);
+    Pageable pageable = PageRequest.of(pagina - 1, 5, Sort.by("id").descending());
+    
+    if (busqueda != null && !busqueda.isEmpty()) {
+        return usuarioRepository.buscarGeneral(busqueda, pageable);
     }
+    return usuarioRepository.findAll(pageable);
+}
 
     // Guardar usuario
     public Usuario guardar(Usuario usuario) {

@@ -94,26 +94,26 @@
                     </table>
                 </div>
 
-                <!-- Paginación -->
-                <nav th:if="${totalPaginas > 0}">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item" th:classappend="${paginaActual == 1} ? 'disabled'">
-                            <a class="page-link" th:href="@{?pagina=1&busqueda=${busqueda}}">Primera</a>
-                        </li>
-                        <li class="page-item" th:classappend="${paginaActual == 1} ? 'disabled'">
-                            <a class="page-link" th:href="@{?pagina=${paginaActual-1}&busqueda=${busqueda}}">Anterior</a>
-                        </li>
-                        <li class="page-item active">
-                            <span class="page-link" th:text="'Página ' + ${paginaActual} + ' de ' + ${totalPaginas}"></span>
-                        </li>
-                        <li class="page-item" th:classappend="${paginaActual == totalPaginas} ? 'disabled'">
-                            <a class="page-link" th:href="@{?pagina=${paginaActual+1}&busqueda=${busqueda}}">Siguiente</a>
-                        </li>
-                        <li class="page-item" th:classappend="${paginaActual == totalPaginas} ? 'disabled'">
-                            <a class="page-link" th:href="@{?pagina=${totalPaginas}&busqueda=${busqueda}}">Última</a>
-                        </li>
-                    </ul>
-                </nav>
+         <!-- Paginación -->
+<nav th:if="${totalPaginas > 0}">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${paginaActual == 1} ? 'disabled'">
+            <a class="page-link" th:href="@{/web/usuarios(pagina=1, busqueda=${busqueda})}">Primera</a>
+        </li>
+        <li class="page-item" th:classappend="${paginaActual == 1} ? 'disabled'">
+            <a class="page-link" th:href="@{/web/usuarios(pagina=${paginaActual-1}, busqueda=${busqueda})}">Anterior</a>
+        </li>
+        <li class="page-item active">
+            <span class="page-link" th:text="'Página ' + ${paginaActual} + ' de ' + ${totalPaginas}"></span>
+        </li>
+        <li class="page-item" th:classappend="${paginaActual == totalPaginas} ? 'disabled'">
+            <a class="page-link" th:href="@{/web/usuarios(pagina=${paginaActual+1}, busqueda=${busqueda})}">Siguiente</a>
+        </li>
+        <li class="page-item" th:classappend="${paginaActual == totalPaginas} ? 'disabled'">
+            <a class="page-link" th:href="@{/web/usuarios(pagina=${totalPaginas}, busqueda=${busqueda})}">Última</a>
+        </li>
+    </ul>
+</nav>
                 
                 <div class="text-muted mt-2">
                     Total de usuarios: <strong th:text="${totalUsuarios}">0</strong>

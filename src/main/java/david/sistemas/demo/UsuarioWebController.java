@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import java.io.IOException;
 
@@ -27,21 +29,31 @@ public class UsuarioWebController {
 
     // Listar con paginación y búsqueda
     @GetMapping
-    public String listarUsuarios(
-            @RequestParam(defaultValue = "1") int pagina,
-            @RequestParam(required = false) String busqueda,
-            Model model) {
-        
-        Page<Usuario> paginaUsuarios = usuarioService.listarUsuarios(pagina, busqueda);
-        
-        model.addAttribute("usuarios", paginaUsuarios.getContent());
-        model.addAttribute("paginaActual", pagina);
-        model.addAttribute("totalPaginas", paginaUsuarios.getTotalPages());
-        model.addAttribute("totalUsuarios", paginaUsuarios.getTotalElements());
-        model.addAttribute("busqueda", busqueda);
-        
-        return "index";
+public String listarUsuarios(
+        @RequestParam(defaultValue = "1") int pagina,
+        @RequestParam(required = false) String busqueda,
+        Model model) {
+    
+    // Validar que la página sea al menos 1
+    if (pagina < 1) {
+        pagina = 1;
     }
+    
+    Page<Usuario> paginaUsuarios = usuarioService.listarUsuarios(pagina, busqueda);
+    
+    // Si la página solicitada es mayor que el total, redirigir a la última
+    if (pagina > paginaUsuarios.getTotalPages() && paginaUsuarios.getTotalPages() > 0) {
+        return "redirect:/web/usuarios?pagina=" + paginaUsuarios.getTotalPages();
+    }
+    
+    model.addAttribute("usuarios", paginaUsuarios.getContent());
+    model.addAttribute("paginaActual", pagina);
+    model.addAttribute("totalPaginas", paginaUsuarios.getTotalPages());
+    model.addAttribute("totalUsuarios", paginaUsuarios.getTotalElements());
+    model.addAttribute("busqueda", busqueda);
+    
+    return "index";
+}
 
     // Mostrar formulario nuevo
     @GetMapping("/nuevo")
@@ -113,4 +125,11 @@ private String guardarFoto(MultipartFile archivo) throws IOException {
         redirectAttributes.addFlashAttribute("success", "Usuario eliminado exitosamente");
         return "redirect:/web/usuarios";
     }
+    @GetMapping("/api")
+@ResponseBody
+public Page<Usuario> listarUsuariosApi(
+        @RequestParam(defaultValue = "1") int pagina,
+        @RequestParam(required = false) String busqueda) {
+    return usuarioService.listarUsuarios(pagina, busqueda);
+}
 }

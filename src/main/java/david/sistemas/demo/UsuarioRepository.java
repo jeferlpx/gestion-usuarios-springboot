@@ -18,7 +18,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
     // Búsqueda general en nombre y email
     @Query("SELECT u FROM Usuario u WHERE LOWER(u.nombre) LIKE LOWER(CONCAT('%', :busqueda, '%')) OR LOWER(u.email) LIKE LOWER(CONCAT('%', :busqueda, '%'))")
-    Page<Usuario> buscarGeneral(@Param("busqueda") String busqueda, Pageable pageable);
+Page<Usuario> buscarGeneral(@Param("busqueda") String busqueda, Pageable pageable);
     
     // Contar usuarios por rol
     long countByRol(String rol);
